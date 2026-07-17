@@ -1,0 +1,16 @@
+{
+  "short_name": "AbhishekOS",
+  "name": "Abhishek Kumar Pundir Portfolio OS",
+  "icons": [
+    {
+      "src": "favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#020617",
+  "theme_color": "#00ffcc",
+  "display": "standalone",
+  "orientation": "portrait"
+}
