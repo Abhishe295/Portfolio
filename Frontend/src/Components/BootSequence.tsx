@@ -25,7 +25,7 @@ export default function BootSequence() {
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
-          clearInterval(progressInterval);
+          clearInterval(progressInterval );
           setShowButton(true);
           return 100;
         }
