@@ -70,7 +70,7 @@ export default function BootSequence() {
             className="mt-4 text-2xl md:text-3xl font-bold tracking-[0.06em] text-white/90"
             style={{ fontFamily: 'Orbitron, sans-serif' }}
           >
-            ABHISHEK
+            ABHISHEK KUMAR PUNDIR
           </div>
           <div className="mt-1.5 text-[11px] tracking-[0.25em] text-primary/70 font-mono uppercase">
             Software Engineer

@@ -59,7 +59,7 @@ export default function Desktop() {
               className="text-4xl md:text-7xl font-bold tracking-[0.06em] text-white/90"
               style={{ fontFamily: 'Orbitron, sans-serif' }}
             >
-              ABHISHEK
+              ABHISHEK KUMAR PUNDIR
             </div>
             <div className="mt-3 text-xs md:text-sm tracking-[0.3em] text-primary/70 font-mono uppercase">
               Software Engineer
