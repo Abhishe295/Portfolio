@@ -14,7 +14,7 @@ export interface WindowDef {
 export const WINDOW_DEFS: WindowDef[] = [
   { id: 'identity', title: 'about-me.app', tooltip: 'About Me', path: '/identity', width: 560, height: 460 },
   { id: 'projects', title: 'projects.app', tooltip: 'Projects', path: '/projects', width: 860, height: 560 },
-  { id: 'lab', title: 'ai-lab.app', tooltip: 'AI Lab', path: '/lab', width: 640, height: 480 },
+  { id: 'askme', title: 'ask-me.app', tooltip: 'Ask Me', path: '/askme', width: 560, height: 620 },
   { id: 'timeline', title: 'focus.app', tooltip: 'Focus', path: '/timeline', width: 620, height: 480 },
   { id: 'terminal', title: 'terminal', tooltip: 'Terminal', path: '/terminal', width: 680, height: 460 },
   { id: 'contact', title: 'contact.app', tooltip: 'Contact', path: '/contact', width: 520, height: 440 },

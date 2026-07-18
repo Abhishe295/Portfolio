@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
-import { User, Rocket, BrainCircuit, Milestone, TerminalSquare, AtSign } from 'lucide-react';
+import { User, Rocket, Flower2, Milestone, TerminalSquare, AtSign } from 'lucide-react';
 import { useSystemStore } from '../lib/useSystemStore';
 import { WINDOW_DEFS } from '../constants/windows';
 import type { WindowId } from '../lib/useSystemStore';
@@ -8,7 +8,7 @@ import type { WindowId } from '../lib/useSystemStore';
 const ICONS: Record<WindowId, React.ComponentType<{ className?: string }>> = {
   identity: User,
   projects: Rocket,
-  lab: BrainCircuit,
+  askme: Flower2,
   timeline: Milestone,
   terminal: TerminalSquare,
   contact: AtSign,

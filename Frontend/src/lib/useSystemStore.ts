@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 export type BootStateType = 'loading' | 'ready' | 'active';
-export type WindowId = 'identity' | 'projects' | 'lab' | 'timeline' | 'terminal' | 'contact';
+export type WindowId = 'identity' | 'projects' | 'askme' | 'timeline' | 'terminal' | 'contact';
 
 export interface OpenWindow {
   id: WindowId;

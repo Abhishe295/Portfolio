@@ -9,7 +9,7 @@ import Dock from '../Components/Dock';
 import Window from '../Components/Window';
 import IdentityWindow from '../Components/windows/IdentityWindow';
 import ProjectsWindow from '../Components/windows/ProjectsWindow';
-import LabWindow from '../Components/windows/LabWindow';
+import AskMeWindow from '../Components/windows/AskMeWindow';
 import TimelineWindow from '../Components/windows/TimelineWindow';
 import TerminalWindow from '../Components/windows/TerminalWindow';
 import ContactWindow from '../Components/windows/ContactWindow';
@@ -17,7 +17,7 @@ import ContactWindow from '../Components/windows/ContactWindow';
 const CONTENT: Record<WindowId, React.ComponentType> = {
   identity: IdentityWindow,
   projects: ProjectsWindow,
-  lab: LabWindow,
+  askme: AskMeWindow,
   timeline: TimelineWindow,
   terminal: TerminalWindow,
   contact: ContactWindow,
@@ -36,7 +36,7 @@ const CASCADE_STEP = 30;
 const ORDER: Record<WindowId, number> = {
   identity: 0,
   projects: 1,
-  lab: 2,
+  askme: 2,
   timeline: 3,
   terminal: 4,
   contact: 5,
@@ -59,7 +59,7 @@ export default function Desktop() {
               className="text-4xl md:text-7xl font-bold tracking-[0.06em] text-white/90"
               style={{ fontFamily: 'Orbitron, sans-serif' }}
             >
-              ABHISHEK KUMAR PUNDIR
+              ABHISHEK
             </div>
             <div className="mt-3 text-xs md:text-sm tracking-[0.3em] text-primary/70 font-mono uppercase">
               Software Engineer
@@ -94,15 +94,13 @@ export default function Desktop() {
             // with what's actually on screen.
             const vw = typeof window !== 'undefined' ? window.innerWidth : 1200;
             const vh = typeof window !== 'undefined' ? window.innerHeight : 800;
-            const baseX = clamp((vw - def.width) / 2, 16, vw - def.width - 16);
-            const baseY = clamp((vh - def.height) / 2, TOP_SAFE, vh - def.height - BOTTOM_SAFE);
+            const maxX = Math.max(vw - def.width - 16, 16);
+            const maxY = Math.max(vh - def.height - BOTTOM_SAFE, TOP_SAFE);
+            const baseX = clamp((vw - def.width) / 2, 16, maxX);
+            const baseY = clamp((vh - def.height) / 2, TOP_SAFE, maxY);
             const i = ORDER[w.id];
-            const x = clamp(baseX + i * CASCADE_STEP - CASCADE_STEP * 2, 16, vw - def.width - 16);
-            const y = clamp(
-              baseY + i * CASCADE_STEP - CASCADE_STEP,
-              TOP_SAFE,
-              vh - def.height - BOTTOM_SAFE
-            );
+            const x = clamp(baseX + i * CASCADE_STEP - CASCADE_STEP * 2, 16, maxX);
+            const y = clamp(baseY + i * CASCADE_STEP - CASCADE_STEP, TOP_SAFE, maxY);
             return (
               <Window
                 key={w.id}
