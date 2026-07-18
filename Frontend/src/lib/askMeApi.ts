@@ -1,8 +1,8 @@
 // Talks to the ask-me-backend (see the separate backend project).
-// Configurable so a deployed frontend can point at a deployed backend
-// instead of localhost - set VITE_ASK_ME_API_URL in a .env file at the
-// frontend root if you deploy this anywhere other than localhost:8787.
-const BASE_URL = import.meta.env.VITE_ASK_ME_API_URL || 'http://localhost:8787';
+// The backend's URL always comes from VITE_ASK_ME_API_URL (see .env.example
+// at the frontend root) - never hardcoded here, so pointing this at a
+// deployed backend later is just an env change, not a code change.
+const BASE_URL = import.meta.env.VITE_ASK_ME_API_URL;
 
 export interface AskMeResponse {
   answer: string;
@@ -25,6 +25,12 @@ export class AskMeError extends Error {
 }
 
 export async function askQuestion(question: string): Promise<AskMeResponse> {
+  if (!BASE_URL) {
+    throw new AskMeError(
+      'VITE_ASK_ME_API_URL is not set. Copy .env.example to .env at the frontend root and set it.'
+    );
+  }
+
   let res: Response;
   try {
     res = await fetch(`${BASE_URL}/api/ask`, {
