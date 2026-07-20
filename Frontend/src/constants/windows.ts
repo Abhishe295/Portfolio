@@ -12,7 +12,7 @@ export interface WindowDef {
 // Single registry: add a window here and it automatically shows up in the
 // Dock and gets a real, shareable route. No duplicated wiring elsewhere.
 export const WINDOW_DEFS: WindowDef[] = [
-  { id: 'identity', title: 'about-me.app', tooltip: 'About Me', path: '/identity', width: 560, height: 460 },
+  { id: 'identity', title: 'about-me.app', tooltip: 'About Me', path: '/identity', width: 750, height: 600 },
   { id: 'projects', title: 'projects.app', tooltip: 'Projects', path: '/projects', width: 860, height: 560 },
   { id: 'askme', title: 'ask-me.app', tooltip: 'Ask Me', path: '/askme', width: 560, height: 620 },
   { id: 'timeline', title: 'focus.app', tooltip: 'Focus', path: '/timeline', width: 620, height: 480 },
