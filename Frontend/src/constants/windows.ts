@@ -17,7 +17,7 @@ export const WINDOW_DEFS: WindowDef[] = [
   { id: 'askme', title: 'ask-me.app', tooltip: 'Ask Me', path: '/askme', width: 560, height: 620 },
   { id: 'timeline', title: 'focus.app', tooltip: 'Focus', path: '/timeline', width: 620, height: 480 },
   { id: 'terminal', title: 'terminal', tooltip: 'Terminal', path: '/terminal', width: 680, height: 460 },
-  { id: 'contact', title: 'contact.app', tooltip: 'Contact', path: '/contact', width: 520, height: 440 },
+  { id: 'contact', title: 'contact.app', tooltip: 'Contact', path: '/contact', width: 500, height: 600 },
 ];
 
 export const WINDOW_MAP: Record<WindowId, WindowDef> = WINDOW_DEFS.reduce(

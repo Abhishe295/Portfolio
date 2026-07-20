@@ -32,20 +32,22 @@ const POSITIONS = [
   { top: '64%', left: '52%' },
 ];
 
-// Precomputed shard burst directions (angle-based, deterministic) for the
-// vibrant "shatter" beat at the very end. Mixed sizes/colors/timings so the
-// burst reads as debris rather than a single uniform ring.
-const SHARD_COLORS = ['#38C0E4', '#7FE3FF', '#ffffff'];
-const SHARDS = Array.from({ length: 30 }, (_, i) => {
-  const angle = (i / 30) * Math.PI * 2 + (i % 3) * 0.15;
-  const dist = 160 + ((i * 53) % 220);
+// Precomputed dissolve-dot directions (angle-based, deterministic) for the
+// closing beat. Lots of tiny dots drifting outward and fading, like dust
+// settling - not squares "shattering", which read as a jarring glass-break
+// against how calm the rest of the sequence is. Mixed sizes/speeds/colors
+// so it reads as a soft dispersal rather than a uniform ring.
+const DOT_COLORS = ['#38C0E4', '#7FE3FF', '#ffffff'];
+const DOTS = Array.from({ length: 70 }, (_, i) => {
+  const angle = (i / 70) * Math.PI * 2 + (i % 5) * 0.09;
+  const dist = 90 + ((i * 37) % 260);
   return {
     dx: Math.cos(angle) * dist,
     dy: Math.sin(angle) * dist,
-    rot: (i % 2 === 0 ? 1 : -1) * (140 + i * 16),
-    size: 6 + (i % 5) * 5,
-    delay: (i % 8) * 0.018,
-    color: SHARD_COLORS[i % SHARD_COLORS.length],
+    size: 1.5 + (i % 4) * 1,
+    delay: (i % 14) * 0.03,
+    duration: 1.1 + (i % 5) * 0.15,
+    color: DOT_COLORS[i % DOT_COLORS.length],
   };
 });
 
@@ -164,31 +166,29 @@ export default function BootSequence() {
       animate={
         stage === 'zoom'
           ? { opacity: 0, scale: 1.06, x: 0, y: 0 }
-          : stage === 'shatter'
-            ? { opacity: 1, scale: 1, x: [0, -12, 10, -8, 6, -4, 2, 0], y: [0, 7, -7, 5, -4, 2, -1, 0] }
-            : { opacity: 1, scale: 1, x: 0, y: 0 }
+          : { opacity: 1, scale: 1, x: 0, y: 0 }
       }
       transition={
         stage === 'zoom'
           ? { duration: 0.45, ease: [0.4, 0, 0.2, 1] }
           : stage === 'shatter'
-            ? { duration: 0.5, ease: 'easeOut' }
+            ? { duration: 0.6, ease: 'easeOut' }
             : { duration: 0.3 }
       }
       className="fixed inset-0 z-[9999] overflow-hidden font-mono select-none cursor-pointer"
     >
       <DesktopBackground />
 
-      {/* Impact flash - the beat where the screen "shakes then shatters" */}
+      {/* Release flash - a soft glow marking the dissolve, not an impact. */}
       <AnimatePresence>
         {stage === 'shatter' && (
           <motion.div
-            key="impact-flash"
+            key="release-flash"
             initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 0.55, 0] }}
-            transition={{ duration: 0.35, times: [0, 0.25, 1], ease: 'easeOut' }}
+            animate={{ opacity: [0, 0.3, 0] }}
+            transition={{ duration: 0.6, times: [0, 0.3, 1], ease: 'easeInOut' }}
             className="absolute inset-0 z-30 pointer-events-none"
-            style={{ background: 'radial-gradient(circle at 50% 50%, rgba(127,227,255,0.9), rgba(56,192,228,0.2) 45%, transparent 75%)' }}
+            style={{ background: 'radial-gradient(circle at 50% 50%, rgba(127,227,255,0.7), rgba(56,192,228,0.15) 45%, transparent 75%)' }}
           />
         )}
       </AnimatePresence>
@@ -362,7 +362,7 @@ export default function BootSequence() {
       </AnimatePresence>
 
       {/* Phase 5: dock + AKP badge assemble, sit for a beat, then everything
-          shatters slowly and deliberately before the zoom-out handoff. */}
+          dissolves gently into drifting dots before the zoom-out handoff. */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <AnimatePresence>
           {showLogo && (
@@ -371,7 +371,7 @@ export default function BootSequence() {
               initial={{ opacity: 0, scale: 0.5 }}
               animate={
                 stage === 'shatter'
-                  ? { opacity: 0, scale: 1.35, rotate: 24, y: -18, transition: { duration: 0.55, ease: 'easeIn' } }
+                  ? { opacity: 0, scale: 1.15, rotate: 6, y: -10, transition: { duration: 0.7, ease: 'easeOut' } }
                   : { opacity: 1, scale: 1, rotate: 0, y: 0, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } }
               }
               className="absolute w-20 h-20 rounded-full border border-primary/40 flex items-center justify-center text-xl font-bold text-primary bg-primary/5 shadow-[0_0_25px_rgba(56,192,228,0.4)]"
@@ -381,28 +381,28 @@ export default function BootSequence() {
           )}
         </AnimatePresence>
 
-        {/* shatter burst - punchy pop outward, then a slower vibrant scatter */}
+        {/* Dissolve into dust - a lot of small dots drifting outward and
+            fading, at their own gentle pace, rather than a small number of
+            squares "shattering" outward all at once. */}
         <AnimatePresence>
           {showShards &&
-            SHARDS.map((s, i) => (
+            DOTS.map((d, i) => (
               <motion.span
                 key={i}
-                initial={{ opacity: 1, x: 0, y: 0, rotate: 0, scale: 0.6 }}
+                initial={{ opacity: 0, x: 0, y: 0, scale: 0.4 }}
                 animate={{
-                  opacity: [1, 1, 0],
-                  x: [0, s.dx * 0.35, s.dx],
-                  y: [0, s.dy * 0.35, s.dy],
-                  rotate: [0, s.rot * 0.4, s.rot],
-                  scale: [0.6, 1.3, 0.3],
+                  opacity: [0, 0.9, 0],
+                  x: d.dx,
+                  y: d.dy,
+                  scale: [0.4, 1, 0.7],
                 }}
-                transition={{ duration: 0.95, delay: s.delay, times: [0, 0.22, 1], ease: 'easeOut' }}
-                className="absolute border"
+                transition={{ duration: d.duration, delay: d.delay, times: [0, 0.3, 1], ease: 'easeOut' }}
+                className="absolute rounded-full"
                 style={{
-                  width: s.size,
-                  height: s.size,
-                  borderColor: s.color,
-                  background: `${s.color}22`,
-                  boxShadow: `0 0 10px ${s.color}88`,
+                  width: d.size,
+                  height: d.size,
+                  background: d.color,
+                  boxShadow: `0 0 6px ${d.color}aa`,
                 }}
               />
             ))}
@@ -415,23 +415,20 @@ export default function BootSequence() {
             initial={{ opacity: 0, y: 30 }}
             animate={
               stage === 'shatter'
-                ? { opacity: 0, transition: { duration: 0.55, delay: 0.25 } }
+                ? { opacity: 0, y: 6, transition: { duration: 0.6, delay: 0.2, ease: 'easeInOut' } }
                 : { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] } }
             }
             className="fixed bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-2 rounded-2xl border border-primary/20 bg-[#0a0f16]/85 backdrop-blur-xl shadow-[0_0_30px_rgba(56,192,228,0.15)]"
           >
             {APPS.map((app, i) => {
               const Icon = app.icon;
-              const dockAngle = (i / APPS.length) * Math.PI + Math.PI; // fan upward/outward
-              const dx = Math.cos(dockAngle) * (70 + i * 14);
-              const dy = -Math.abs(Math.sin(dockAngle) * 90) - i * 6;
               return (
                 <motion.span
                   key={app.id}
                   initial={{ opacity: 0, y: 10 }}
                   animate={
                     stage === 'shatter'
-                      ? { opacity: 0, x: dx, y: dy, rotate: (i % 2 === 0 ? 1 : -1) * 160, scale: 0.4, transition: { duration: 0.7, ease: 'easeIn' } }
+                      ? { opacity: 0, y: -8, scale: 0.85, transition: { duration: 0.5, delay: i * 0.03, ease: 'easeInOut' } }
                       : { opacity: 1, y: 0, x: 0, rotate: 0, scale: 1, transition: { delay: i * 0.06, duration: 0.25 } }
                   }
                   className="flex h-11 w-11 items-center justify-center rounded-xl border border-primary/20 bg-white/[0.03] text-primary/80"
